@@ -3,6 +3,9 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
+#include<cstdio>
+#include<stdio.h>
+
 
 using namespace std;
 
@@ -108,6 +111,7 @@ void save_transactions_to_csv(transaction* transactions_list,int list_size){
 
     // if transactions.csv already created
     if (file.is_open()){
+        file << "id, Description, Amount, Date \n"<< std::endl;
         for (int i = 0;i < list_size;i++){
         file << transactions_list[i].id << "," 
             <<transactions_list[i].description << "," 
@@ -133,11 +137,11 @@ void save_transactions_to_csv(transaction* transactions_list,int list_size){
 int message_handler(transaction *transactions_list){
     int short action;
     std::string input_str;
-    printf_s("Action: \n");
-    printf_s("1.Add Transaction \n");
-    printf_s("2.Delete Transaction \n");
-    printf_s("3.Get Transactions List\n");
-    printf_s("4.Exit \n");
+    printf("Action: \n");
+    printf("1.Add Transaction \n");
+    printf("2.Delete Transaction \n");
+    printf("3.Get Transactions List\n");
+    printf("4.Exit \n");
     
     while (true){
         std::cout << "Select action: ";
