@@ -1,11 +1,12 @@
 #include <iostream>
 #include <ctime>
+#include <windows.h>
 #include <string>
 #include <cstdlib>
 #include <fstream>
 #include<cstdio>
 #include<stdio.h>
-
+#include <tchar.h>
 using namespace std;
 
 struct transaction{
@@ -177,15 +178,21 @@ void arrayExtension(transaction*& transactions_list,int const max_size,int const
     transactions_list = temp;
 }
 
+
+
+
 int main(){
     transaction *transactions_list = new transaction[2];
     int counter = 0;
     int size_list = 0;
     int max_size = 2;
     while (true){
+        
+        back_handler:
         int action;
         action =  message_handler(transactions_list);
         conslole_clear();
+        
         switch (action){
             case 1:{counter+=1;
                 transaction* tr = new transaction;
@@ -208,12 +215,36 @@ int main(){
             case 4:{
                 break;}
         }
+        
         if (action==4){
-            save_transactions_to_csv(transactions_list,size_list);
-            std::cout << "Programm was closed... \n";
-            break;
-        }   
+            std::string input0;
+            int input;
+            conslole_clear();
+            std :: cout << "Are you sure you want to close the program? \n 1 - Close \n 2 - back \n Select action: ";
+            reinput:
+            std::getline(std::cin, input0);
+            if (isNumeric(input0)){
+                input = std::stoi(input0);
+            }else{goto default_reinput;}
+
+            switch(input){
+                case 1:{
+                    save_transactions_to_csv(transactions_list,size_list);
+                    std::cout << "Programm was closed... \n";
+                    goto exit_handler;}
+                case 2:{conslole_clear();
+                    goto back_handler;}
+
+                default:{default_reinput:
+                    conslole_clear();
+                    std::cout << "Choose '1' for exit or '0' for back to menu :";
+                    goto reinput;}
+            }
+        }
     }
+    
+    exit_handler:
     return 0;
 }
 //reinit repositorie git
+
